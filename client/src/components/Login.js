@@ -1,38 +1,34 @@
 import React, { Component } from 'react';
 import { Button, Form, Segment, Header } from 'semantic-ui-react';
-import { handleRegistration } from '../actions/auth';
+import { handleLogin } from '../actions/auth';
 import { connect } from 'react-redux';
 
-class Register extends Component {
-  state = { email: '', password: '', passwordConfirmation: '' }
+class Login extends Component {
+  state = { email: '', password: '' }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password, passwordConfirmation } = this.state;
 
-    if(password === passwordConfirmation)
-      this.props.dispatch(handleRegistration(email, password, passwordConfirmation, this.props.history))
-    else
-      alert('Passwords Do Not Match!')
+    const { email, password } = this.state;
+    this.props.dispatch(handleLogin(email, password, this.props.history))
   }
 
   handleChange = (e) => {
     const { id, value } = e.target;
-    this.setState({ [id]: value });
+    this.setState({[id]: value });
   }
 
   render() {
-    const { email, password, passwordConfirmation } = this.state;
+    const { email, password } = this.state;
 
-    return (
+    return(
       <Segment basic>
-        <Header as='h1' textAlign='center'>Register</Header>
+        <Header as='h1' textAlign='center'>Login</Header>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Email</label>
             <input
               required
-              autoFocus
               id='email'
               value={email}
               placeholder='Email'
@@ -50,17 +46,6 @@ class Register extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
-          <Form.Field>
-            <label>Password Confirmation</label>
-            <input
-              required
-              id='passwordConfirmation'
-              value={passwordConfirmation}
-              placeholder='Password Confirmation'
-              type='password'
-              onChange={this.handleChange}
-            />
-          </Form.Field>
           <Segment textAlign='center' basic>
             <Button primary type='submit'>Submit</Button>
           </Segment>
@@ -70,4 +55,4 @@ class Register extends Component {
   }
 }
 
-export default connect()(Register);
+export default connect()(Login);
